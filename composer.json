@@ -2,6 +2,7 @@
     "name": "d3r/phpunit-utils",
     "description": "Some utility classes for phpunit testing",
     "license": "proprietary",
+    "type": "library",
     "authors": [
         {
             "name": "Ronan Chilvers",
