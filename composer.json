@@ -1,0 +1,20 @@
+{
+    "name": "d3r/phpunit-testing",
+    "description": "Some utility classes for phpunit testing",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Ronan Chilvers",
+            "email": "ronan@d3r.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "D3R\\PHPUnit\\": "src\\phpunit"
+        }
+    },
+    "require": {
+        "phpunit/phpunit": "~4.2",
+        "phpunit/phpunit-selenium": "~1.4"
+    }
+}
