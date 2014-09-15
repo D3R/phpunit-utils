@@ -1,5 +1,5 @@
 {
-    "name": "d3r/phpunit-testing",
+    "name": "d3r/phpunit-utils",
     "description": "Some utility classes for phpunit testing",
     "license": "proprietary",
     "authors": [
