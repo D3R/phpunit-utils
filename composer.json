@@ -15,7 +15,6 @@
         }
     },
     "require": {
-        "phpunit/phpunit": "~4.2",
-        "facebook/webdriver": "dev-master"
+        "phpunit/phpunit": "~4.2"
     }
 }
