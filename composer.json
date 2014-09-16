@@ -11,11 +11,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "D3R\\PHPUnit\\": "src\\phpunit",
-            "facebook/webdriver": "dev-master"
+            "D3R\\PHPUnit\\": "src\\phpunit"
         }
     },
     "require": {
-        "phpunit/phpunit": "~4.2"
+        "phpunit/phpunit": "~4.2",
+        "facebook/webdriver": "dev-master"
     }
 }
