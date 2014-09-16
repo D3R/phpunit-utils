@@ -2,6 +2,7 @@
 
 namespace D3R\PHPUnit\WebDriver;
 
+use D3R\PHPUnit\WebDriver\Connection;
 use D3R\PHPUnit\WebDriver\InvalidSetupException;
 
 /**
@@ -26,7 +27,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @var RemoteWebDriver
      */
-    private $webDriver = false;
+    private $driver = false;
 
     /**
      * Class constructor
@@ -54,10 +55,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      *
      * @author Ronan Chilvers <ronan@d3r.com>
      */
-    protected function setUp()
-    {
-        $this->getDriver();
-    }
+    // protected function setUp()
+    // {
+    //     $this->getDriver();
+    // }
 
     /**
      * {@inheritdoc}. Close the webdriver connection.
@@ -216,7 +217,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function getCapabilities()
     {
-        $capabilities = new \DesiredCapababilities();
+        $capabilities = new \DesiredCapabilities();
         $capabilities->setBrowserName($this->getBrowser());
 
         return $capabilities;
@@ -230,14 +231,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      */
     protected function getDriver()
     {
-        if (!$this->webDriver instanceof \RemoteWebDriver) {
-            $this->webDriver = \RemoteWebDriver::create(
+        if (!$this->driver instanceof Connection) {
+            $this->driver = Connection::create(
                 $this->getConnectionUrl(),
                 $this->getCapabilities()
             );
         }
 
-        return $this->webDriver;
+        return $this->driver;
     }
 
 }
