@@ -1,16 +1,16 @@
 <?php
 
-namespace D3R\PHPUnit\Selenium2;
+namespace D3R\PHPUnit\WebDriver;
 
-use D3R\PHPUnit\Selenium2\InvalidSetupException;
+use D3R\PHPUnit\WebDriver\InvalidSetupException;
 
 /**
- * Base TestCase for Selenium2 tests
+ * Base TestCase for WebDriver tests
  *
  * @author    Ronan Chilvers <ronan@d3r.com>
  * @copyright 2014 D3R Ltd
  * @license   http://d3r.com/license D3R Software Licence
- * @package   D3R\PHPUnit\Selenium2
+ * @package   D3R\PHPUnit\WebDriver
  */
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
