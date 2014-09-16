@@ -14,7 +14,7 @@
             "D3R\\PHPUnit\\": "src\\phpunit"
         }
     },
-    "require-dev": {
+    "require": {
         "phpunit/phpunit": "~4.2",
         "facebook/webdriver": "dev-master"
     }
