@@ -4,8 +4,11 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ee3752f855d291c053a36b07ef9efdc1",
+    "hash": "6c01542285bc98fc8f007f4c079ea79a",
     "packages": [
+
+    ],
+    "packages-dev": [
         {
             "name": "facebook/webdriver",
             "version": "dev-master",
@@ -851,9 +854,6 @@
             "homepage": "http://symfony.com",
             "time": "2014-08-31 03:22:04"
         }
-    ],
-    "packages-dev": [
-
     ],
     "aliases": [
 
