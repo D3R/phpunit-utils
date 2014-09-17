@@ -2,6 +2,11 @@
 
 namespace D3R\PHPUnit\WebDriver;
 
+use D3R\PHPUnit\WebDriver\Trap\Element\AttributeTrap;
+use D3R\PHPUnit\WebDriver\Trap\Element\TextTrap;
+use D3R\PHPUnit\WebDriver\Trap\Exception\UnknownTrapTagException;
+use D3R\PHPUnit\WebDriver\Trap\TrapInterface;
+
 /**
  * Class to represent an instanceof of a WebDriver connection
  *
@@ -20,6 +25,13 @@ class Connection extends \RemoteWebDriver
      * @var string
      */
     protected $defaultHost = false;
+
+    /**
+     * Trapped data
+     *
+     * @var array
+     */
+    protected $trapped = array();
 
     /**
      * Set the base url for this connection
@@ -81,15 +93,90 @@ class Connection extends \RemoteWebDriver
      * @return $this
      * @author Ronan Chilvers <ronan@d3r.com>
      */
-    public function waitForSelector($selector, $timeout_in_second = 30)
+    public function waitForSelector($selector, $timeout_in_second = 30, $interval_in_millisecond = 250)
     {
         $by = $this->getElementBy($selector);
-        $this->wait($timeout_in_second)
+        $this->wait($timeout_in_second, $interval_in_millisecond)
              ->until(\WebDriverExpectedCondition::presenceOfElementLocated($by))
              ;
 
         return $this;
     }
+
+    /**
+     * Trap something from the browser for later use
+     *
+     * @param TrapInterface $trap
+     * @param string $tag
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function trap(TrapInterface $trap, $tag)
+    {
+        $trap->evaluate($this);
+        $this->trapped[$tag] = $trap;
+
+        return $this;
+    }
+
+    /**
+     * Trap the text of an element
+     *
+     * @param string $selector
+     * @return $this
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function trapText($selector, $tag)
+    {
+        $element = $this->findElement($this->getElementBy($selector));
+        $trap    = new TextTrap($element);
+
+        return $this->trap($trap, $tag);
+    }
+
+    /**
+     * Trap the value of an attribute
+     *
+     * @param string $selector
+     * @param string $attribute
+     * @param string $tag
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function trapAttribute($selector, $attribute, $tag)
+    {
+        $element = $this->findElement($this->getElementBy($selector));
+        $trap    = new AttributeTrap($element, $attribute);
+
+        return $this->trap($trap, $tag);
+    }
+
+    /**
+     * Get the data for a given trap tag
+     *
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function getTrap($tag)
+    {
+        if (!isset($this->trapped[$tag])) {
+            throw new UnknownTrapTagException('Invalid tag ' . (string) $tag);
+        }
+
+        return $this->trapped[$tag];
+    }
+
+    /**
+     * Get the text contained by an element
+     *
+     * @param string $selector
+     * @return string
+     * @throws \NoSuchElementException
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    // public function getText($selector)
+    // {
+    //     $element = $this->findElement($this->getElementBy($selector));
+
+    //     return $element->getText();
+    // }
 
     /**
      * Get an element by selector

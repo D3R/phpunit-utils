@@ -46,19 +46,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
                 'port'       => '4444',
                 'path'       => '/wd/hub',
                 'browser'    => false,
-                'browserUrl' => false
+                'defaultHost'=> false
             );
     }
-
-    /**
-     * {@inheritdoc}. Set up the webdriver connection
-     *
-     * @author Ronan Chilvers <ronan@d3r.com>
-     */
-    // protected function setUp()
-    // {
-    //     $this->getDriver();
-    // }
 
     /**
      * {@inheritdoc}. Close the webdriver connection.
@@ -174,28 +164,28 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Set the browser string
+     * Set the default host to use for this test case
      *
-     * @param string $browser
+     * @param string $host
      * @return $this
      * @author Ronan Chilvers <ronan@d3r.com>
      */
-    protected function setBrowserUrl($url)
+    protected function setDefaultHost($defaultHost)
     {
-        $this->parameters['browserUrl'] = $url;
+        $this->parameters['defaultHost'] = $defaultHost;
 
         return $this;
     }
 
     /**
-     * Get the browser string
+     * Get the default host to use for this test case
      *
      * @return string
      * @author Ronan Chilvers <ronan@d3r.com>
      */
-    protected function getBrowserUrl()
+    protected function getDefaultHost()
     {
-        return $this->parameters['browserUrl'];
+        return $this->parameters['defaultHost'];
     }
 
     /**
@@ -236,9 +226,45 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
                 $this->getConnectionUrl(),
                 $this->getCapabilities()
             );
+            if ($host = $this->getDefaultHost()) {
+                $this->driver->setDefaultHost($host);
+            }
         }
 
         return $this->driver;
     }
 
+    /** Assertions **/
+
+    /**
+     * Assert a match for the current url
+     *
+     * @param string $url
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function assertCurrentUrl($url)
+    {
+        $host = $this->getDefaultHost();
+        if (false != $host && 'http' != substr($url, 0, 4)) {
+            $url = $host . '/' . ltrim($url, '/');
+        }
+
+        $driver     = $this->getDriver();
+        self::assertEquals($driver->getCurrentUrl(), $url);
+    }
+
+    /**
+     * Assert that a specific string occurs in the page source
+     *
+     * @param string $string
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function assertPageContains($string, $message = '', $ignoreCase = true)
+    {
+        $driver = $this->getDriver();
+
+        self::assertContains($string, $driver->getPagesource(), $message, $ignoreCase);
+    }
+
+    /** End Assertions **/
 }
