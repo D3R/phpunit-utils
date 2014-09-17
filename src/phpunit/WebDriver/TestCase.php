@@ -277,6 +277,19 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Assert that a specific string occurs in the page source
+     *
+     * @param string $string
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function assertPageRegExp($pattern, $message = '')
+    {
+        $driver = $this->getDriver();
+
+        self::assertRegExp($pattern, $driver->getPagesource(), $message);
+    }
+
+    /**
      * Assert that a given element has an attribute, optionally with a given value
      *
      * @param string $selector
