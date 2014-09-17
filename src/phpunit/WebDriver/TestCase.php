@@ -233,7 +233,18 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         return $this->driver;
     }
 
-    /** Assertions **/
+    /**
+     * Assertions
+     *
+     * A small comment about these assertions. The PHPUnit assertions are defined as static methods
+     * on the test case class (even though they are called non-statically all the time!!). However in
+     * this case, the assertions internally need the WebDriver connection object which is only available
+     * to test case instances. Therefore I've deliberately made these methods non-static. If anyone
+     * has a better idea (maybe I need to factor out the connection object - a
+     * singleton maybe?) please shout!
+     *
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
 
     /**
      * Assert a match for the current url
@@ -263,6 +274,27 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $driver = $this->getDriver();
 
         self::assertContains($string, $driver->getPagesource(), $message, $ignoreCase);
+    }
+
+    /**
+     * Assert that a given element has an attribute, optionally with a given value
+     *
+     * @param string $selector
+     * @param string $attribute
+     * @param string $value
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function assertElementHasAttribute($selector, $attribute, $value = null)
+    {
+        $driver    = $this->getDriver();
+        $element   = $driver->getElement($selector);
+        $attr      = $element->getAttribute($attribute);
+
+        if (!is_null($value) && !is_null($attr)) {
+            self::assertEquals($attr, $value);
+        } else {
+            self::assertNotNull($attr);
+        }
     }
 
     /** End Assertions **/
