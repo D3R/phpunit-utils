@@ -2,6 +2,7 @@
 
 namespace D3R\PHPUnit\WebDriver;
 
+use D3R\PHPUnit\WebDriver\Exception\InvalidElementException;
 use D3R\PHPUnit\WebDriver\Trap\Element\AttributeTrap;
 use D3R\PHPUnit\WebDriver\Trap\Element\TextTrap;
 use D3R\PHPUnit\WebDriver\Trap\Exception\UnknownTrapTagException;
@@ -80,8 +81,28 @@ class Connection extends \RemoteWebDriver
      */
     public function click($selector)
     {
-        $element = $this->findElement($this->getElementBy($selector));
+        $element = $this->getElement($selector);
         $element->click();
+
+        return $this;
+    }
+
+    /**
+     * Submit a form
+     *
+     * @param string $selector
+     * @return $this
+     * @throws \NoSuchElementException
+     * @throws D3R\PHPUnit\WebDriver\Exception\InvalidElementException
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function submit($selector)
+    {
+        $element = $this->getElement($selector);
+        if ('form' !== $element->getTagName()) {
+            throw new InvalidElementException('Unable to call submit on ' . $element->getTagName() . ' element');
+        }
+        $element->submit();
 
         return $this;
     }
@@ -91,11 +112,12 @@ class Connection extends \RemoteWebDriver
      *
      * @param int $timeout_in_second
      * @return $this
+     * @throws NoSuchElementException
      * @author Ronan Chilvers <ronan@d3r.com>
      */
     public function waitForSelector($selector, $timeout_in_second = 30, $interval_in_millisecond = 250)
     {
-        $by = $this->getElementBy($selector);
+        $by = $this->getWebDriverBy($selector);
         $this->wait($timeout_in_second, $interval_in_millisecond)
              ->until(\WebDriverExpectedCondition::presenceOfElementLocated($by))
              ;
@@ -108,6 +130,7 @@ class Connection extends \RemoteWebDriver
      *
      * @param TrapInterface $trap
      * @param string $tag
+     * @return $this
      * @author Ronan Chilvers <ronan@d3r.com>
      */
     public function trap(TrapInterface $trap, $tag)
@@ -123,11 +146,12 @@ class Connection extends \RemoteWebDriver
      *
      * @param string $selector
      * @return $this
+     * @throws NoSuchElementException
      * @author Ronan Chilvers <ronan@d3r.com>
      */
     public function trapText($selector, $tag)
     {
-        $element = $this->findElement($this->getElementBy($selector));
+        $element = $this->getElement($selector);
         $trap    = new TextTrap($element);
 
         return $this->trap($trap, $tag);
@@ -139,11 +163,13 @@ class Connection extends \RemoteWebDriver
      * @param string $selector
      * @param string $attribute
      * @param string $tag
+     * @return $this
+     * @throws NoSuchElementException
      * @author Ronan Chilvers <ronan@d3r.com>
      */
     public function trapAttribute($selector, $attribute, $tag)
     {
-        $element = $this->findElement($this->getElementBy($selector));
+        $element = $this->getElement($selector);
         $trap    = new AttributeTrap($element, $attribute);
 
         return $this->trap($trap, $tag);
@@ -152,6 +178,8 @@ class Connection extends \RemoteWebDriver
     /**
      * Get the data for a given trap tag
      *
+     * @param string $tag
+     * @throws UnknownTrapTagException
      * @author Ronan Chilvers <ronan@d3r.com>
      */
     public function getTrap($tag)
@@ -164,19 +192,17 @@ class Connection extends \RemoteWebDriver
     }
 
     /**
-     * Get the text contained by an element
+     * Get an element by selector
      *
      * @param string $selector
-     * @return string
-     * @throws \NoSuchElementException
+     * @return RemoteWebElement
+     * @throws NoSuchElementException
      * @author Ronan Chilvers <ronan@d3r.com>
      */
-    // public function getText($selector)
-    // {
-    //     $element = $this->findElement($this->getElementBy($selector));
-
-    //     return $element->getText();
-    // }
+    public function getElement($selector)
+    {
+        return $this->findElement($this->getWebDriverBy($selector));
+    }
 
     /**
      * Get an element by selector
@@ -185,9 +211,14 @@ class Connection extends \RemoteWebDriver
      * @return WebDriverBy
      * @author Ronan Chilvers <ronan@d3r.com>
      */
-    protected function getElementBy($selector)
+    protected function getWebDriverBy($selector)
     {
-        if ('#' == substr($selector, 0, 1)) {
+        if (
+            false &&
+            false === strpos($selector, ' ') &&
+            false === strpos($selector, '.') &&
+            '#' == substr($selector, 0, 1)
+        ) {
             $by = \WebDriverBy::id(substr($selector, 1));
         } else {
             $by = \WebDriverBy::cssSelector($selector);

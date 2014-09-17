@@ -3,7 +3,6 @@
 namespace D3R\PHPUnit\WebDriver;
 
 use D3R\PHPUnit\WebDriver\Connection;
-use D3R\PHPUnit\WebDriver\InvalidSetupException;
 
 /**
  * Base TestCase for WebDriver tests

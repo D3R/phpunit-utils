@@ -1,6 +1,6 @@
 <?php
 
-namespace D3R\PHPUnit\WebDriver;
+namespace D3R\PHPUnit\WebDriver\Exception;
 
 /**
  * Exception to be thrown for setup errors
