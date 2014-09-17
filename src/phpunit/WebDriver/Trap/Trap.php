@@ -3,6 +3,7 @@
 namespace D3R\PHPUnit\WebDriver\Trap;
 
 use D3R\PHPUnit\WebDriver\Connection;
+use D3R\PHPUnit\WebDriver\Trap\Exception\EvaluationFailedException;
 
 /**
  * Base class for all traps

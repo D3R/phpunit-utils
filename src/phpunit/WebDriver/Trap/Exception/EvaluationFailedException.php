@@ -2,14 +2,16 @@
 
 namespace D3R\PHPUnit\WebDriver\Trap\Exception;
 
+use D3R\PHPUnit\WebDriver\Exception\Exception;
+
 /**
- * Exception thrown when someone asks for a trap with a tag that doesn't exist
+ * General Exception thrown when a trap evaluation fails
  *
  * @author    Ronan Chilvers <ronan@d3r.com>
  * @copyright 2014 D3R Ltd
  * @license   http://d3r.com/license D3R Software Licence
- * @package   D3R
+ * @package   D3R\PHPUnit\WebDriver\Trap
  */
-class UnknownTrapTagException extends Exception
+class EvaluationFailedException extends Exception
 {
 }

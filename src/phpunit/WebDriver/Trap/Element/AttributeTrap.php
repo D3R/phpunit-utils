@@ -3,6 +3,7 @@
 namespace D3R\PHPUnit\WebDriver\Trap\Element;
 
 use D3R\PHPUnit\WebDriver\Connection;
+use D3R\PHPUnit\WebDriver\Trap\Exception\EvaluationFailedException;
 
 /**
  * This trap stores the text from a given element
