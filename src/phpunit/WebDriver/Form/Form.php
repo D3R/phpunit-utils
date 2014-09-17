@@ -86,10 +86,14 @@ class Form implements FormInterface
         // Apply test entries
         foreach ($this->textEntries as $selector => $text) {
             $selector = "{$formSelector} {$selector}";
-            error_log('Selector  : ' . $selector);
             $element  = $connection->getElement($selector);
             $element->sendKeys($text);
         }
 
+        foreach ($this->selectEntries as $selector => $option) {
+            $selector = "{$selector} option[value='{$option}']";
+            $element = $connection->getElement($selector);
+            $element->click();
+        }
     }
 }
