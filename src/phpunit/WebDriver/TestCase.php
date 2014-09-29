@@ -42,7 +42,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 
         $this->parameters = array(
                 'host'       => 'http://localhost',
-                'port'       => '4444',
+                'port'       => '4433',
                 'path'       => '/wd/hub',
                 'browser'    => false,
                 'defaultHost'=> false
