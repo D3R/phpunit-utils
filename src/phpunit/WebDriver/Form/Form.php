@@ -87,6 +87,7 @@ class Form implements FormInterface
         foreach ($this->textEntries as $selector => $text) {
             $selector = "{$formSelector} {$selector}";
             $element  = $connection->getElement($selector);
+            $element->clear();
             $element->sendKeys($text);
         }
 
