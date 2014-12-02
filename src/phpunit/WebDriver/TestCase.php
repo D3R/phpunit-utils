@@ -264,6 +264,20 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Assert a match for the current path
+     *
+     * @param string $path
+     * @author Ronan Chilvers <ronan@d3r.com>
+     */
+    public function assertCurrentPath($path)
+    {
+        $driver = $this->getDriver();
+        $url    = parse_url($driver->getCurrentUrl());
+
+        self::assertEquals($url['path'], $path);
+    }
+
+    /**
      * Assert that a specific string occurs in the page source
      *
      * @param string $string
