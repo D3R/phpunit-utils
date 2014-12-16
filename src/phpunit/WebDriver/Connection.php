@@ -201,7 +201,11 @@ class Connection extends \RemoteWebDriver
      */
     public function getElement($selector)
     {
-        return $this->findElement($this->getWebDriverBy($selector));
+        try {
+            return $this->findElement($this->getWebDriverBy($selector));
+        } catch (\NoSuchElementException $ex) {
+            return false;
+        }
     }
 
     /**
