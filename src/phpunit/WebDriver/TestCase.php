@@ -274,7 +274,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $driver = $this->getDriver();
         $url    = parse_url($driver->getCurrentUrl());
 
-        self::assertEquals($url['path'], $path);
+        self::assertEquals($path, $url['path']);
     }
 
     /**
