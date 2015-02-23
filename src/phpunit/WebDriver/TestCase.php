@@ -324,5 +324,18 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Assert that a given element exists on the page
+     *
+     * @param string $selector
+     * @author David Fox <david@d3r.com>
+     */
+    public function assertElementExists($selector)
+    {
+        $driver    = $this->getDriver();
+        $element   = $driver->getElement($selector);
+        self::assertNotFalse($element);  
+    }
+
     /** End Assertions **/
 }
