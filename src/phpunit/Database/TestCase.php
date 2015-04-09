@@ -135,16 +135,4 @@ abstract class TestCase extends \PHPUnit_Extensions_Database_TestCase
     {
         return new \PHPUnit_Extensions_Database_DataSet_YamlDataSet($filename);
     }
-
-    /**
-     * Get a dataset from a PHP fixture file
-     * @param  String $array
-     * @return PHPUnit_Extensions_Database_DataSet_ArrayDataSet
-     *
-     * @author Glenn McEwan <glenn@d3r.com>
-     */
-    protected function createArrayDataSet(array $array)
-    {
-        return new \PHPUnit_Extensions_Database_DataSet_ArrayDataSet($array);
-    }
 }
