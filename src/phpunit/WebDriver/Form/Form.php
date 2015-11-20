@@ -3,10 +3,8 @@
 namespace D3R\PHPUnit\WebDriver\Form;
 
 use Exception;
-
-use D3R\PHPUnit\WebDriver\Connection;
-
 use WebDriverElement;
+use D3R\PHPUnit\WebDriver\Connection;
 
 /**
  * Form object used for filling in forms
