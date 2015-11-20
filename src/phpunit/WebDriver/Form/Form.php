@@ -2,7 +2,11 @@
 
 namespace D3R\PHPUnit\WebDriver\Form;
 
+use Exception;
+
 use D3R\PHPUnit\WebDriver\Connection;
+
+use WebDriverElement;
 
 /**
  * Form object used for filling in forms
@@ -26,14 +30,14 @@ class Form implements FormInterface
      *
      * @var array
      */
-    protected $textEntries = array();
+    protected $textEntries = [];
 
     /**
      * Select option entries
      *
      * @var array
      */
-    protected $selectEntries = array();
+    protected $selectEntries = [];
 
     /**
      * @author Ronan Chilvers <ronan@d3r.com>
@@ -77,6 +81,7 @@ class Form implements FormInterface
     }
 
     /**
+     * @throws Exception If element not found, rather than fatal'ing (method call on non-obj)
      * @author Ronan Chilvers <ronan@d3r.com>
      */
     public function apply(Connection $connection)
@@ -87,6 +92,11 @@ class Form implements FormInterface
         foreach ($this->textEntries as $selector => $text) {
             $selector = "{$formSelector} {$selector}";
             $element  = $connection->getElement($selector);
+
+            if (!$element instanceof WebDriverElement) {
+                throw new Exception('Unable to find Element by selector: ' . $selector);
+            }
+
             $element->clear();
             $element->sendKeys($text);
         }
@@ -94,6 +104,11 @@ class Form implements FormInterface
         foreach ($this->selectEntries as $selector => $option) {
             $selector = "{$selector} option[value='{$option}']";
             $element = $connection->getElement($selector);
+
+            if (!$element instanceof WebDriverElement) {
+                throw new Exception('Unable to find Element by selector: ' . $selector);
+            }
+
             $element->click();
         }
     }
