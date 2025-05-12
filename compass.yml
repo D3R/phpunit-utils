@@ -1,0 +1,15 @@
+name: phpunit-utils
+id: ari:cloud:compass:99f81cd3-6055-4ddd-97a3-655f84dd430a:component/a6a6633a-8303-46fd-94f0-c5635a90b6ba/95b0b66f-c576-47ee-8ae7-8563e7f89281
+description: Utility classes for phpunit testing
+configVersion: 1
+typeId: SERVICE
+fields:
+  tier: 4
+links: []
+relationships:
+  DEPENDS_ON: []
+labels:
+  - language:php
+  - package
+  - source:github
+customFields: null
